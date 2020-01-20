@@ -8,14 +8,15 @@ RUN apt-get update \
     && apt-get install software-properties-common -y \
     && apt-get install wget -y \
     && apt-get install make -y \
-    && apt-get install gcc -y
+    && apt-get install gcc -y \
+    && apt-get install git -y 
 
 # Install java 11
-RUN wget https://download.java.net/java/GA/jdk11/9/GPL/openjdk-11.0.2_linux-x64_bin.tar.gz
-RUN tar -xzvf *.tar.gz
+RUN wget https://download.java.net/java/GA/jdk11/9/GPL/openjdk-11.0.2_linux-x64_bin.tar.gz \
+    && tar -xzvf *.tar.gz
 ENV JAVA_VERSION="jdk-11.0.2"
-RUN mv $JAVA_VERSION /usr/local/share/
-RUN rm *.tar.gz
+RUN mv $JAVA_VERSION /usr/local/share/ \
+    && rm *.tar.gz
 ENV JAVA_HOME=/usr/local/share/$JAVA_VERSION
 ENV PATH="$JAVA_HOME/bin:$PATH"
 
@@ -27,10 +28,9 @@ RUN wget --no-verbose -O /tmp/apache-maven-3.3.9-bin.tar.gz http://www-eu.apache
     rm -f /tmp/apache-maven-3.3.9-bin.tar.gz
 ENV MAVEN_HOME /opt/maven
 
-# Copy Anserini
-COPY /anserini/ /home/anserini/
-
-# Build Anserini
+# Install & build Anserini
+WORKDIR /home/
+RUN git clone https://github.com/castorini/anserini
 WORKDIR /home/anserini/
 RUN mvn clean package appassembler:assemble -DskipTests -Dmaven.javadoc.skip=true
 WORKDIR /home/anserini/eval/
@@ -43,10 +43,9 @@ WORKDIR /home/anserini
 CMD target/appassembler/bin/IndexCollection \
     -collection CarCollection \
     -generator LuceneDocumentGenerator \
-    -input /home/shared/data/paragraphs/ \
-    -index /home/shared/index/lucene-index.car17v2.0.paragraphs \ 
-    -threads 40 \
+    -input ${input} \
+    -index ${index} \ 
+    -threads ${threads} \
     -storePositions \
     -storeDocvectors \
-    -storeRawDocs \
-    2>&1 | tee /home/shared/logs/output.txt
+    -storeRawDocs 
