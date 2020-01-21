@@ -48,4 +48,4 @@ CMD target/appassembler/bin/IndexCollection \
     -threads ${threads} \
     -storePositions \
     -storeDocvectors \
-    -storeRawDocs 
+    -storeRawDocs

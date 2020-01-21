@@ -39,16 +39,10 @@ spec:
       volumeMounts: 
        - mountPath: /nfs/
          name: nfs-access
-      env: 
-       - name: "HTTP_PROXY"
-       	  value: "http://myproxy.net:5187/"
-       - name: "HTTP_PROXY"
-      	  value: "http://myproxy.net:5187/"
-      - name: "HTTP_PROXY"
-      	  value: "http://myproxy.net:5187/"
   restartPolicy: Never
 
 ######################
 
 - end of scripts groupwrite permissons (run chmod -R 775 *)
-- copy scp (hmod -R 775 files + chgroup -R nfsnobody *)
+- copy scp (chmod -R 775 files + chgroup -R nfsnobody *)
+
