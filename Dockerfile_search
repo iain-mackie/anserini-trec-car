@@ -4,9 +4,8 @@ MAINTAINER iain mackie
 
 CMD target/appassembler/bin/SearchCollection \
     -topicreader Car \
-    -index {INDEX} \
+    -index ${INDEX} \
     -topics ${TOPICS} \
     -output ${OUTPUT} \ 
-    -threads ${THREADS} \
-    -hits {HITS} \
+    -hits ${HITS} \
     -bm25
