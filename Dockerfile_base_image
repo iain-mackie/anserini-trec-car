@@ -37,15 +37,5 @@ WORKDIR /home/anserini/eval/
 RUN tar xvfz trec_eval.9.0.4.tar.gz 
 WORKDIR /home/anserini/eval/trec_eval.9.0.4/ 
 RUN make
-
-# Run Anserini
 WORKDIR /home/anserini
-CMD target/appassembler/bin/IndexCollection \
-    -collection CarCollection \
-    -generator LuceneDocumentGenerator \
-    -input ${input} \
-    -index ${index} \ 
-    -threads ${threads} \
-    -storePositions \
-    -storeDocvectors \
-    -storeRawDocs
+

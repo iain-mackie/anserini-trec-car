@@ -1,0 +1,13 @@
+FROM iainmackie/anserini-base-image:v1
+
+MAINTAINER iain mackie
+
+CMD target/appassembler/bin/IndexCollection \
+    -collection CarCollection \
+    -generator LuceneDocumentGenerator \
+    -input ${INPUT} \
+    -index ${INDEX} \ 
+    -threads ${THREADS} \
+    -storePositions \
+    -storeDocvectors \
+    -storeRawDocs
