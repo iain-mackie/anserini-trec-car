@@ -39,3 +39,4 @@ WORKDIR /home/anserini/eval/trec_eval.9.0.4/
 RUN make
 WORKDIR /home/anserini
 
+CMD 

@@ -1,0 +1,8 @@
+FROM iainmackie/anserini-base-image:v1
+
+MAINTAINER iain mackie
+
+CMD ./eval/trec_eval.9.0.4/trec_eval \
+	-m map \
+	-m recip_rank \
+	-c ${QRELS} ${RUN} > ${OUTPUT}
