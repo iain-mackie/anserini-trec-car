@@ -10,9 +10,9 @@ if [ -f "$DOCKER_PATH" ]; then
 	-v $PWD/shared/data/:/home/shared/data \
 	-v $PWD/shared/index/:/home/shared/index \
 	-e INDEX=/home/shared/index/lucene.local \
-	-e TOPICS=/home/shared/data/anserini_data/test.topics \
-	-e OUTPUT=/home/shared/data/anserini_data/test.run \
-	-e HITS=1000 \
+	-e TOPICS=/home/shared/data/anserini_data/train.topics \
+	-e OUTPUT=/home/shared/data/anserini_data/train.run \
+	-e HITS=10 \
 	iainmackie/anserini-search 
 
 else

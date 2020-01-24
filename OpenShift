@@ -1,48 +1,69 @@
 ######################
-
-apiVersion: v1
-kind: Pod
-metadata:
-  name: test-anserini
-  namespace: imackieproject
-spec:
-  volumes:
-  - name: nfs-access
-    persistentVolumeClaim:
-        claimName: imackievol1claim
-  containers:
-    - name: anserini-container
-      image: iainmackie/anserini-trec-test
-      imagePullPolicy: IfNotPresent
-      volumeMounts: 
-       - mountPath: /nfs/
-         name: nfs-access
-  restartPolicy: Never
-
-
-######################
-
-apiVersion: v1
-kind: Pod
-metadata:
-  name: test-anserini
-  namespace: imackieproject
-spec:
-  volumes:
-  - name: nfs-access
-    persistentVolumeClaim:
-        claimName: imackievol1claim
-  containers:
-    - name: anserini-container
-      image: iainmackie/anserini-trec
-      imagePullPolicy: IfNotPresent
-      volumeMounts: 
-       - mountPath: /nfs/
-         name: nfs-access
-  restartPolicy: Never
-
-######################
+Commands to run to make files read/write
 
 - end of scripts groupwrite permissons (run chmod -R 775 *)
-- copy scp (chmod -R 775 files + chgroup -R nfsnobody *)
+- copy scp (chmod -R 775 files && chgroup -R nfsnobody *)
+
+
+######################
+OpenShift: iainmackie/anserini-index
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: anserini-trec-car-index
+  namespace: imackieproject
+spec:
+  volumes:
+  - name: nfs-access
+    persistentVolumeClaim:
+      claimName: imackievol1claim
+  containers:
+  - env: 
+    - name: INPUT
+      value: /nfs/trec_car/data/paragraphs/
+    - name: INDEX
+      value: /nfs/trec_car/index/anserini_paragraphs/lucene-index.car17v2.0.paragraphsv3
+    - name: THREADS
+      value: '30'
+    name: anserini-trec-car-index-container
+    image: iainmackie/anserini-index:v1
+    imagePullPolicy: IfNotPresent
+    volumeMounts: 
+    - mountPath: /nfs/
+      name: nfs-access
+  restartPolicy: Never
+
+######################
+OpenShift: iainmackie/anserini-search
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: anserini-trec-car-search
+  namespace: imackieproject
+spec:
+  volumes:
+  - name: nfs-access
+    persistentVolumeClaim:
+      claimName: imackievol1claim
+  containers:
+  - env: 
+    - name: INDEX
+      value: /nfs/trec_car/index/anserini_paragraphs/lucene-index.car17v2.0.paragraphsv2
+    - name: TOPICS
+      value: /nfs/trec_car/data/train/train_out.topics
+    - name: OUTPUT
+      value: /nfs/trec_car/data/train/train_out.runv2
+    - name: HITS
+      value: '10'
+    name: anserini-trec-car-search-container
+    image: iainmackie/anserini-search:v1
+    imagePullPolicy: IfNotPresent
+    volumeMounts: 
+    - mountPath: /nfs/
+      name: nfs-access
+  restartPolicy: Never
+
+
 
