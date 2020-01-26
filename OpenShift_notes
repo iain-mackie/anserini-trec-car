@@ -35,12 +35,12 @@ spec:
   restartPolicy: Never
 
 ######################
-OpenShift: iainmackie/anserini-search
+OpenShift: iainmackie/anserini-search-bm25
 
 apiVersion: v1
 kind: Pod
 metadata:
-  name: anserini-trec-car-search
+  name: anserini-trec-car-search-bm25
   namespace: imackieproject
 spec:
   volumes:
@@ -52,13 +52,44 @@ spec:
     - name: INDEX
       value: /nfs/trec_car/index/anserini_paragraphs/lucene-index.car17v2.0.paragraphsv2
     - name: TOPICS
-      value: /nfs/trec_car/data/train/train_out.topics
+      value: /nfs/trec_car/data/benchmarkY1/test.topics
     - name: OUTPUT
-      value: /nfs/trec_car/data/train/train_out.runv2
+      value: /nfs/trec_car/data/benchmarkY1/test.runv2
     - name: HITS
       value: '10'
     name: anserini-trec-car-search-container
-    image: iainmackie/anserini-search:v1
+    image: iainmackie/anserini-search-bm25:v1
+    imagePullPolicy: IfNotPresent
+    volumeMounts: 
+    - mountPath: /nfs/
+      name: nfs-access
+  restartPolicy: Never
+
+######################
+OpenShift: iainmackie/anserini-search-bm25-rm3
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: anserini-trec-car-search-bm25-rm3
+  namespace: imackieproject
+spec:
+  volumes:
+  - name: nfs-access
+    persistentVolumeClaim:
+      claimName: imackievol1claim
+  containers:
+  - env: 
+    - name: INDEX
+      value: /nfs/trec_car/index/anserini_paragraphs/lucene-index.car17v2.0.paragraphsv2
+    - name: TOPICS
+      value: /nfs/trec_car/data/benchmarkY1/test.topics
+    - name: OUTPUT
+      value: /nfs/trec_car/data/benchmarkY1/test_rm3.run
+    - name: HITS
+      value: '10'
+    name: anserini-trec-car-search-container
+    image: iainmackie/anserini-search-bm25-rm3:v1
     imagePullPolicy: IfNotPresent
     volumeMounts: 
     - mountPath: /nfs/
@@ -85,7 +116,7 @@ spec:
     - name: RUN
       value: /nfs/trec_car/data/train/train_tree_out.run
     - name: OUTPUT
-      value: /nfs/trec_car/data/train/train_tree.eval
+      value: /nfs/trec_car/data/train/train_tree.evalv2
     name: anserini-trec-car-eval-container
     image: iainmackie/anserini-eval:v2
     imagePullPolicy: IfNotPresent
