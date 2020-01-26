@@ -65,5 +65,34 @@ spec:
       name: nfs-access
   restartPolicy: Never
 
+######################
+OpenShift: iainmackie/anserini-eval
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: anserini-trec-car-eval
+  namespace: imackieproject
+spec:
+  volumes:
+  - name: nfs-access
+    persistentVolumeClaim:
+      claimName: imackievol1claim
+  containers:
+  - env: 
+    - name: QRELS
+      value: /nfs/trec_car/data/train/train_tree.qrels
+    - name: RUN
+      value: /nfs/trec_car/data/train/train_tree_out.run
+    - name: OUTPUT
+      value: /nfs/trec_car/data/train/train_tree.eval
+    name: anserini-trec-car-eval-container
+    image: iainmackie/anserini-eval:v2
+    imagePullPolicy: IfNotPresent
+    volumeMounts: 
+    - mountPath: /nfs/
+      name: nfs-access
+  restartPolicy: Never
+
 
 
