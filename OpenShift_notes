@@ -2,7 +2,7 @@
 Commands to run to make files read/write
 
 - end of scripts groupwrite permissons (run chmod -R 775 *)
-- copy scp (chmod -R 775 files && chgroup -R nfsnobody *)
+- copy scp (chmod -R 775 * && chgrp -R nfsnobody *)
 
 
 ######################
@@ -57,7 +57,7 @@ spec:
       value: /nfs/trec_car/data/benchmarkY1/test.runv2
     - name: HITS
       value: '10'
-    name: anserini-trec-car-search-container
+    name: anserini-trec-car-search-bm25-container
     image: iainmackie/anserini-search-bm25:v1
     imagePullPolicy: IfNotPresent
     volumeMounts: 
@@ -88,7 +88,7 @@ spec:
       value: /nfs/trec_car/data/benchmarkY1/test_rm3.run
     - name: HITS
       value: '10'
-    name: anserini-trec-car-search-container
+    name: anserini-trec-car-search-bm25-rm3-container
     image: iainmackie/anserini-search-bm25-rm3:v1
     imagePullPolicy: IfNotPresent
     volumeMounts: 
