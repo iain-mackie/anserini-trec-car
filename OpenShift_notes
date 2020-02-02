@@ -97,6 +97,37 @@ spec:
   restartPolicy: Never
 
 ######################
+OpenShift: iainmackie/anserini-search-ql
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: anserini-trec-car-search-ql
+  namespace: imackieproject
+spec:
+  volumes:
+  - name: nfs-access
+    persistentVolumeClaim:
+      claimName: imackievol1claim
+  containers:
+  - env: 
+    - name: INDEX
+      value: /nfs/trec_car/index/anserini_paragraphs/lucene-index.car17v2.0.paragraphsv2
+    - name: TOPICS
+      value: /nfs/trec_car/data/benchmarkY1/test.topics
+    - name: OUTPUT
+      value: /nfs/trec_car/data/benchmarkY1/test_ql.run1000
+    - name: HITS
+      value: '1000'
+    name: anserini-trec-car-search-ql-container
+    image: iainmackie/anserini-search-ql:v1
+    imagePullPolicy: IfNotPresent
+    volumeMounts: 
+    - mountPath: /nfs/
+      name: nfs-access
+  restartPolicy: Never
+
+######################
 OpenShift: iainmackie/anserini-eval
 
 apiVersion: v1
@@ -118,7 +149,7 @@ spec:
     - name: OUTPUT
       value: /nfs/trec_car/data/train/train_tree.evalv2
     name: anserini-trec-car-eval-container
-    image: iainmackie/anserini-eval:v2
+    image: iainmackie/anserini-eval:v3
     imagePullPolicy: IfNotPresent
     volumeMounts: 
     - mountPath: /nfs/

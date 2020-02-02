@@ -1,0 +1,11 @@
+FROM iainmackie/anserini-base-image:v1
+
+MAINTAINER iain mackie
+
+CMD target/appassembler/bin/SearchCollection \
+    -topicreader Car \
+    -index ${INDEX} \
+    -topics ${TOPICS} \
+    -output ${OUTPUT} \ 
+    -hits ${HITS} \
+    -qld
