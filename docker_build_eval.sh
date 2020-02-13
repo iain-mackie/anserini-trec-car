@@ -5,7 +5,7 @@ echo "Trying to build docker image from:" $DOCKER_PATH;
 
 if [ -f "$DOCKER_PATH" ]; then
   echo "file exits"
-  sudo docker build -t iainmackie/anserini-eval:v2 -f $DOCKER_PATH .
+  sudo docker build -t iainmackie/anserini-eval:v4 -f $DOCKER_PATH .
  #  sudo docker run -it \
 	# -v $PWD/shared/data/:/home/shared/data \
 	# -v $PWD/shared/index/:/home/shared/index \

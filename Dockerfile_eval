@@ -8,4 +8,5 @@ CMD ./eval/trec_eval.9.0.4/trec_eval \
 	-m P.20 \
 	-m ndcg_cut.20 \
 	-m Rprec \
+	-m recall.40 \
 	-c ${QRELS} ${RUN} > ${OUTPUT}

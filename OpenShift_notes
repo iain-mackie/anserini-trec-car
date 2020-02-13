@@ -5,6 +5,8 @@ Commands to run to make files read/write
 - copy scp (chmod -R 775 * && chgrp -R nfsnobody *)
 
 
+serviceAccount: containerroot
+
 ######################
 OpenShift: iainmackie/anserini-index
 
@@ -149,7 +151,7 @@ spec:
     - name: OUTPUT
       value: /nfs/trec_car/data/train/train_tree.evalv2
     name: anserini-trec-car-eval-container
-    image: iainmackie/anserini-eval:v3
+    image: iainmackie/anserini-eval:v4
     imagePullPolicy: IfNotPresent
     volumeMounts: 
     - mountPath: /nfs/
