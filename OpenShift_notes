@@ -110,7 +110,7 @@ spec:
     persistentVolumeClaim:
       claimName: imackievol1claim
   containers:
-  - env: 
+  - env: ing
     - name: INDEX
       value: /nfs/trec_car/index/anserini_paragraphs/lucene-index.car17v2.0.paragraphsv2
     - name: TOPICS
