@@ -165,5 +165,41 @@ spec:
       name: nfs-access
   restartPolicy: Never
 
+######################
+OpenShift: iainmackie/anserini-eval-by-query
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: anserini-trec-car-eval-by-query
+  namespace: imackieproject
+spec:
+  volumes:
+  - name: nfs-access
+    persistentVolumeClaim:
+      claimName: imackievol1claim
+  containers:
+  - env: 
+    - name: QRELS
+      value: /nfs/trec_car/data/anserini_example_runs/test.qrels
+    - name: RUN
+      value: /nfs/trec_car/data/anserini_example_runs/test.run
+    - name: OUTPUT
+      value: /nfs/trec_car/data/anserini_example_runs/test.eval.byquery
+    name: anserini-trec-car-eval-by-query-container
+    image: iainmackie/anserini-eval-by-query:v2
+    imagePullPolicy: IfNotPresent
+    resources:
+      requests:
+        cpu: "4000m"
+        memory: "16Gi"
+      limits:
+        cpu: "8000m"
+        memory: "32Gi"
+    volumeMounts: 
+    - mountPath: /nfs/
+      name: nfs-access
+  restartPolicy: Never
+
 
 
